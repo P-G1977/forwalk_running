@@ -237,7 +237,7 @@ main {
             rgba(36, 61, 50, 0.85),
             rgba(36, 61, 50, 0.92)
         ),
-        url('../images/dublin-city.webp') center / cover no-repeat;
+        url('../images/misty-lake.webp') center / cover no-repeat;
 
     padding: 35px 25px;
     text-align: center;
