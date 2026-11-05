@@ -1,5 +1,5 @@
-/*Google fonts*/
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+/* Google fonts import*/
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Oswald:wght@200..700&display=swap');
 
 /* Asterisk wildcard selector to override default styles added by the browser */
 * {
@@ -11,7 +11,7 @@
 h1,
 h2,
 h3 {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Oswald", sans-serif;
     text-transform: uppercase;
     letter-spacing: 2px;
     color: #252525;
@@ -74,6 +74,13 @@ nav {
     font-size: 2rem;
 }
 
+ #logo {
+        font-size: 280%;
+        line-height: 75px;
+        margin: 0 0.5rem;
+    }
+
+
 /* Main content */
 main {
     /* Enlarge main element to push footer down*/
@@ -110,8 +117,6 @@ main {
     color: #ffffff;
 }
 
-
-
 /* Footer */
 #social-networks {
     text-align: center;
@@ -125,4 +130,55 @@ main {
     font-size: 160%;
     padding: 5%;
     color: #3a3a3a;
+}
+
+/* Media query: tablets and larger (768px and up) */
+
+@media screen and (min-width: 768px) {
+    /*header*/
+    nav {
+        display: block;
+        position: relative;
+        box-shadow: none;
+        width: fit-content;
+        padding-right: 1rem;
+    }
+    #menu {
+        display: flex;
+    }
+
+    #menu > li {
+        padding-left: 1rem;
+    }
+
+    .nav-toggle-label {
+        display: none;
+    }
+
+    #logo {
+        font-size: 280%;
+        line-height: 25px;
+        margin: 0 0.5rem;
+    }
+
+    /* Main content */
+    main {
+        /* push main content down to accommadate larger header */
+        margin-top: 79px;
+    }
+
+    /* Hero */
+    #cover-text{
+        width: 300px;
+        right: 50px;
+    }
+}
+
+/* Media query:  (laptops and desktops, 992px and up) */
+
+@media screen and (min-width: 992px) {
+    #menu a:hover{
+        border-bottom: 1px solid #3a3a3a;
+    }
+
 }
