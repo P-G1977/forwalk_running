@@ -115,20 +115,20 @@ main {
 }
 
 #cover-text {
-    /* Final rgba value sets the opacity so it is semi-transparent */
-    background-color: rgba(241, 109, 107, .7);
-    font-size: 130%;
+    background-color: rgba(36, 61, 50, 0.85);
+    font-size: 100%;
     position: absolute;
     bottom: 30px;
-    width: 80%;
-    min-height: 200px;
-    padding-top: 40px;
-    padding-left: 10px;
+    width: 90%;
+    max-width: 450px;
+    min-height: 160px;
+    padding: 20px;
+    border-radius: 4px;
 }
 
-#cover-text>h2,
-#cover-text>h3 {
-    color: #ffffff;
+#cover-text h2,
+#cover-text h3 {
+    color: var(--cream);
 }
 
 /* Footer */
