@@ -87,11 +87,11 @@ nav {
     font-size: 2rem;
 }
 
- #logo {
-        font-size: 280%;
-        line-height: 75px;
-        margin: 0 0.5rem;
-    }
+#logo {
+    font-size: clamp(1.6rem, 6vw, 2.8rem);
+    line-height: 1.2;
+    margin: 0 0.5rem;
+}
     
 
 
