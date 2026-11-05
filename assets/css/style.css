@@ -33,8 +33,10 @@ body {
 /* Header */
 header {
     background-color: var(--cream);
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 1rem;
     position: fixed;
+    top: 0;
+    left: 0;
     z-index: 99;
     width: 100%;
     box-shadow: 0 2px 2px #3a3a3a;
@@ -89,7 +91,7 @@ nav {
 
 #logo {
     font-size: clamp(1.5rem, 4vw, 2.2rem);
-    line-height: 1.1;
+    line-height: 1;
     letter-spacing: 1px;
     margin: 0 0.5rem;
 }
@@ -101,7 +103,7 @@ main {
     /* Enlarge main element to push footer down*/
     flex: 1 0 auto;
     /* Add margin at the top to prevent content from being covered by the header */
-    margin-top: 47px;
+    margin-top: 50px;
     /* Enable flex properties for child elements */
     display: flex;
     flex-direction: column;
@@ -179,7 +181,7 @@ main {
     /* Main content */
     main {
         /* push main content down to accommadate larger header */
-        margin-top: 79px;
+        margin-top: 50px;
     }
 
     /* Hero */
