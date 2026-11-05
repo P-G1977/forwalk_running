@@ -33,7 +33,7 @@ body {
 /* Header */
 header {
     background-color: var(--cream);
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
     position: fixed;
     z-index: 99;
     width: 100%;
@@ -88,8 +88,8 @@ nav {
 }
 
 #logo {
-    font-size: clamp(1.6rem, 6vw, 2.8rem);
-    line-height: 1.2;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    line-height: 1.1;
     margin: 0 0.5rem;
 }
     
@@ -159,20 +159,20 @@ main {
     }
     #menu {
         display: flex;
+        align-items: center;
     }
 
     #menu > li {
         padding-left: 1rem;
+        margin-bottom: 0;
     }
 
     .nav-toggle-label {
         display: none;
     }
 
-    #logo {
-        font-size: 280%;
-        line-height: 25px;
-        margin: 0 0.5rem;
+    #menu a:hover {
+        border-bottom: 1px solid var(--forest);
     }
 
     /* Main content */
@@ -185,10 +185,6 @@ main {
     #cover-text{
         width: 300px;
         right: 50px;
-    }
-
-    #menu a:hover{
-        border-bottom: 1px solid #3a3a3a;
     }
 }
 
