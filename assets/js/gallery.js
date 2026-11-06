@@ -9,6 +9,7 @@ const lightboxImage = document.querySelector("#lightbox-image");
 const closeButton = document.getElementById("lightbox-close");
 const prevButton = document.getElementById("lightbox-prev");
 const nextButton = document.getElementById("lightbox-next");
+const lightboxCounter = document.getElementById("lightbox-counter");
 
 // State
 let currentImageIndex = 0;
@@ -20,6 +21,8 @@ function showImage(index) {
   currentImageIndex = (index + galleryImages.length) % galleryImages.length;
   lightboxImage.src = galleryImages[currentImageIndex].src;
   lightboxImage.alt = galleryImages[currentImageIndex].alt;
+  lightboxCounter.textContent =
+    `${currentImageIndex + 1} / ${galleryImages.length}`;
 }
 
 function openLightbox(index) {
