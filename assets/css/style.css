@@ -26,8 +26,12 @@ h3 {
 }
 
 body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-color: var(--cream);
     color: var(--forest);
+    font-family: "Lato", sans-serif;
 }
 
 /* Header */
