@@ -524,6 +524,23 @@ main {
     cursor: pointer;
 }
 
+.lightbox-nav {
+    background: rgba(36, 61, 50, 0.7);
+    color: var(--cream);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.lightbox-nav:hover {
+    background-color: var(--accent);
+}
+
 /* Tablets */
 @media screen and (min-width: 600px) {
     .gallery-grid {
