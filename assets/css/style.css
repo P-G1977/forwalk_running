@@ -474,7 +474,7 @@ main {
     }
 
     #meetups {
-        padding: 55px 5%;
+        padding: 80px 5%;
     }
 
     #times {
@@ -575,3 +575,84 @@ main {
 }
 
 
+/* ========================================
+   EVEN SPACING - MEETUP CARDS
+======================================== */
+
+/* Make every card a vertical flex container */
+
+.meetup-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 420px;
+    padding: 28px 22px;
+}
+
+/* Activity label */
+
+.meetup-tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    margin-bottom: 18px;
+}
+
+/* Main card heading */
+
+.meetup-card h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 58px;
+    line-height: 1.25;
+    margin-bottom: 12px;
+}
+
+/* Day of the week */
+
+.meetup-day {
+    min-height: 20px;
+    margin-bottom: 16px;
+}
+
+/* Activity highlight */
+
+.meetup-highlight {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+/* Location */
+
+.meetup-location {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 25px;
+    margin: 0 0 8px;
+}
+
+/* Time */
+
+.meetup-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 43px;
+    margin-bottom: 12px;
+}
+
+/* Description */
+
+.meetup-description {
+    line-height: 1.7;
+    margin-top: auto;
+    padding-top: 12px;
+    margin-bottom: 0;
+}
