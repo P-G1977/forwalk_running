@@ -138,6 +138,17 @@ main {
     color: var(--cream);
 }
 
+/* About section */
+
+#about {
+    padding: 70px 6%;
+    background-color: var(--mist);
+}
+
+#about .section-heading {
+    margin-bottom: 0;
+}
+
 /* Reasons section */
 #reasons {
     width: 90%;
