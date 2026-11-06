@@ -201,6 +201,10 @@ main {
     margin: 0 auto 50px;
 }
 
+#reasons .section-heading {
+    margin-bottom: 30px;
+}
+
 .eyebrow {
     display: inline-block;
     color: var(--accent);
@@ -504,8 +508,6 @@ main {
     }
 
 }
-
-
 
 /* Media query: tablets and larger (992px and up) */
 
