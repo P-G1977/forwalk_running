@@ -46,9 +46,70 @@
 
     <!-- Main content -->
     <main>
-            <div>main content</div>
-        
-    </main>
+    <section id="signup">
+        <div class="signup-container">
+
+            <div class="section-heading">
+                <span class="eyebrow">Join the Community</span>
+                <h2>Become a Forewalker</h2>
+                <p>Meet new people, get active and enjoy the games.</p>
+            </div>
+
+            <form id="signup-form">
+
+                <div class="form-group">
+                    <label for="full-name">Full name</label>
+                    <input
+                        type="text"
+                        id="full-name"
+                        name="full_name"
+                        autocomplete="name"
+                        placeholder="Your full name"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        autocomplete="new-password"
+                        minlength="12"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm password</label>
+                    <input
+                        type="password"
+                        id="confirm-password"
+                        name="confirm_password"
+                        autocomplete="new-password"
+                        minlength="12"
+                        required>
+                        <p id="password-error" class="form-error" role="alert" hidden></p>
+                </div>
+
+                <button type="submit" class="signup-button">
+                    Create My Account
+                </button>
+
+            </form>
+        </div>
+    </section>
+</main>
 
 
     <!-- Footer -->
@@ -95,6 +156,8 @@
     <!-- Font Awesome kit -->
     <script src="https://kit.fontawesome.com/d0511671cd.js"
             crossorigin="anonymous"></script>
+
+            <script src="assets/js/signup.js"></script>
 
 </body>
 </html>

@@ -565,6 +565,81 @@ main {
     letter-spacing: 2px;
 }
 
+/* ==============================
+   SIGNUP PAGE
+   ============================== */
+
+#signup {
+    padding: 100px 6%;
+    background-color: var(--cream);
+}
+
+.signup-container {
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+#signup-form {
+    background-color: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(36, 61, 50, 0.08);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    color: var(--forest);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--mist);
+    border-radius: 6px;
+    font: inherit;
+    color: var(--forest);
+    background-color: white;
+}
+
+.form-group input:focus-visible {
+    outline: 2px solid var(--sage);
+    outline-offset: 2px;
+}
+
+.signup-button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--forest);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+    background-color: var(--sage);
+}
+
+.form-error {
+    color: #b42318;
+    font-size: 0.875rem;
+    margin-top: 8px;
+}
+
+.form-error[hidden] {
+    display: none;
+}
+
 /* Tablets */
 @media screen and (min-width: 600px) {
     .gallery-grid {
