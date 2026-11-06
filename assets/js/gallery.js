@@ -10,9 +10,11 @@ const closeButton = document.getElementById("lightbox-close");
 const prevButton = document.getElementById("lightbox-prev");
 const nextButton = document.getElementById("lightbox-next");
 const lightboxCounter = document.getElementById("lightbox-counter");
+const galleryTriggers = document.querySelectorAll(".gallery-trigger");
 
 // State
 let currentImageIndex = 0;
+let previouslyFocusedElement = null;
 
 /* Core Functions */
 
@@ -26,20 +28,28 @@ function showImage(index) {
 }
 
 function openLightbox(index) {
-  showImage(index);
-  lightbox.hidden = false;
-  closeButton.focus();
+    previouslyFocusedElement = document.activeElement;
+
+    showImage(index);
+    lightbox.hidden = false;
+    closeButton.focus();
 }
 
 function closeLightbox() {
-  lightbox.hidden = true;
+    lightbox.hidden = true;
+
+    if (previouslyFocusedElement) {
+        previouslyFocusedElement.focus();
+    }
 }
 
 /* Event Listeners */
 
-// Open the lightbox when a gallery image is clicked
-galleryImages.forEach((image, index) => {
-  image.addEventListener("click", () => openLightbox(index));
+// Open the lightbox when a gallery button is clicked
+galleryTriggers.forEach((button, index) => {
+    button.addEventListener("click", () => {
+        openLightbox(index);
+    });
 });
 
 // Navigation buttons
@@ -50,6 +60,33 @@ closeButton.addEventListener("click", closeLightbox);
 // Keyboard navigation
 document.addEventListener("keydown", (event) => {
   if (lightbox.hidden) return;
+
+  if (event.key === "Tab") {
+    const focusableElements = [
+        closeButton,
+        prevButton,
+        nextButton
+    ];
+
+    const currentIndex = focusableElements.indexOf(document.activeElement);
+
+    if (event.shiftKey) {
+        // Shift + Tab moves backwards
+        const previousIndex =
+            (currentIndex - 1 + focusableElements.length) %
+            focusableElements.length;
+
+        event.preventDefault();
+        focusableElements[previousIndex].focus();
+    } else {
+        // Tab moves forwards
+        const nextIndex =
+            (currentIndex + 1) % focusableElements.length;
+
+        event.preventDefault();
+        focusableElements[nextIndex].focus();
+    }
+}
 
   switch (event.key) {
     case "ArrowRight":

@@ -484,6 +484,20 @@ main {
     color: var(--forest);
 }
 
+.gallery-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.gallery-trigger:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}
+
 /* Lightbox overlay */
 .lightbox {
     position: fixed;
