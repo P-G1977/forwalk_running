@@ -433,10 +433,19 @@ main {
     list-style-type: none;
 }
 
+/* Social icons */
 #social-networks i {
     font-size: 160%;
     padding: 5%;
-    color: #3a3a3a;
+    color: var(--forest);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Social icons hover */
+#social-networks a:hover i,
+#social-networks a:focus-visible i {
+    color: var(--accent);
+    transform: translateY(-4px);
 }
 
 /* Media query: tablets and larger (400px and up) */
