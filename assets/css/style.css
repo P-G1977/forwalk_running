@@ -484,6 +484,46 @@ main {
     color: var(--forest);
 }
 
+/* Lightbox overlay */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+/* Keep lightbox hidden until JavaScript opens it */
+.lightbox[hidden] {
+    display: none;
+}
+
+/* Enlarged image */
+#lightbox-image {
+    display: block;
+    max-width: 90%;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Close button */
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+}
+
 /* Tablets */
 @media screen and (min-width: 600px) {
     .gallery-grid {
