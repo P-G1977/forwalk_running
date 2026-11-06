@@ -448,35 +448,36 @@ main {
     transform: translateY(-4px);
 }
 
-/* Gallery section */
 
+/* Gallery section */
 #gallery {
     padding: 70px 6%;
     background-color: var(--cream);
 }
 
 /* Gallery grid */
-
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: 1fr;
     gap: 20px;
 }
 
-/* Gallery images */
-
+/* Gallery items */
 .gallery-item {
+    margin: 0;
     overflow: hidden;
     border-radius: 8px;
 }
 
+/* Gallery images */
 .gallery-item img {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    height: 250px;
     object-fit: cover;
 }
 
+/* Gallery captions */
 .gallery-item figcaption {
     padding: 15px;
     text-align: center;
