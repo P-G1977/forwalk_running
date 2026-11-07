@@ -7,6 +7,7 @@ from argon2 import PasswordHasher
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, EmailStr, Field
 from fastapi.middleware.cors import CORSMiddleware
+from argon2.exceptions import VerifyMismatchError, VerificationError
 
 
 app = FastAPI(title="Forewalk Games API")
@@ -28,6 +29,10 @@ class MemberRegistration(BaseModel):
     email: EmailStr
     password: str = Field(min_length=12)
     confirm_password: str
+    
+class MemberLogin(BaseModel):
+    email: EmailStr
+    password: str
 
 def get_db_connection():
     return psycopg.connect(
@@ -94,4 +99,51 @@ def register_member(member: MemberRegistration):
     return {
         "message": "Member registered successfully",
         "member_id": member_id
+    }
+
+@app.post("/api/login")
+def login_member(member: MemberLogin):
+    """Verify a member's login credentials."""
+
+    with get_db_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT member_id, full_name, password_hash
+                FROM public.members
+                WHERE LOWER(email) = LOWER(%s);
+                """,
+                (member.email,)
+            )
+
+            existing_member = cursor.fetchone()
+
+    if existing_member is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
+
+    try:
+        password_hasher.verify(
+            existing_member[2],
+            member.password
+        )
+
+    except VerifyMismatchError:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
+
+    except VerificationError:
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to verify credentials"
+        )
+
+    return {
+        "message": "Login credentials verified",
+        "member_id": existing_member[0],
+        "full_name": existing_member[1]
     }
