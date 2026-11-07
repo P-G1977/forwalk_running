@@ -1,8 +1,17 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, EmailStr, Field
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI(title="Forewalk Games API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://127.0.0.1:8001"
+    ],
+    allow_methods=["POST"],
+    allow_headers=["Content-Type"]
+)
 
 
 class MemberRegistration(BaseModel):
