@@ -14,9 +14,18 @@ with psycopg.connect(
 ) as connection:
 
     with connection.cursor() as cursor:
-        cursor.execute("SELECT current_database(), current_user;")
+        cursor.execute(
+        """
+        SELECT member_id, full_name, email
+        FROM public.members
+        WHERE email = %s;
+        """,
+        ("test@example.com",)
+    )
 
-        result = cursor.fetchone()
+        member = cursor.fetchone()
 
-        print("Connected to database:", result[0])
-        print("Connected as user:", result[1])
+        if member:
+            print("Member found:", member)
+        else:
+            print("No member found with that email.")
