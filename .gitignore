@@ -1,0 +1,26 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+.venv-*/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# macOS files
+.DS_Store
+
+# VS Code local settings
+.vscode/*
+!.vscode/settings.json
+
+# Python testing and tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
