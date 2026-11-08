@@ -17,10 +17,9 @@ import hashlib
 app = FastAPI(title="Forewalk Games API")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:8001"
-    ],
-    allow_methods=["POST"],
+    allow_origins=["http://127.0.0.1:8001"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"]
 )
 
