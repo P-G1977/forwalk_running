@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import psycopg
 from psycopg.errors import UniqueViolation
 from dotenv import load_dotenv
@@ -15,6 +16,7 @@ import hashlib
 
 
 app = FastAPI(title="Forewalk Games API")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:8001"],
@@ -23,7 +25,8 @@ app.add_middleware(
     allow_headers=["Content-Type"]
 )
 
-load_dotenv()
+ENV_PATH = Path(__file__).resolve().parent / ".env"
+load_dotenv(dotenv_path=ENV_PATH, override=True)
 
 password_hasher = PasswordHasher()
 
