@@ -11,11 +11,24 @@ from argon2.exceptions import VerifyMismatchError, VerificationError
 from datetime import datetime, timedelta, timezone
 from fastapi import FastAPI, HTTPException, Response, Cookie, Depends
 from typing import Union
+from fastapi import Request
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 import secrets
 import hashlib
 
 
 app = FastAPI(title="Forewalk Games API")
+
+limiter = Limiter(key_func=get_remote_address)
+
+app.state.limiter = limiter
+
+app.add_exception_handler(
+    RateLimitExceeded,
+    _rate_limit_exceeded_handler
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -51,6 +64,31 @@ def get_db_connection():
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD")
     )
+
+def record_login_attempt(email, ip_address, successful):
+    with get_db_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO public.login_attempts
+                    (email, ip_address, successful)
+                VALUES (%s, %s, %s);
+            """, (email, ip_address, successful))
+
+def count_failed_login_attempts(email, ip_address):
+    with get_db_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT COUNT(*)
+                FROM public.login_attempts
+                WHERE LOWER(email) = LOWER(%s)
+                  AND ip_address IS NOT DISTINCT FROM %s
+                  AND successful = FALSE
+                  AND attempted_at >= CURRENT_TIMESTAMP - INTERVAL '15 minutes';
+            """, (email, ip_address))
+
+            failed_attempts = cursor.fetchone()[0]
+
+    return failed_attempts
 
 
 def generate_session_token():
@@ -188,7 +226,24 @@ def register_member(member: MemberRegistration):
 
 
 @app.post("/api/login")
-def login_member(member: MemberLogin, response: Response):
+@limiter.limit("5/15minutes")
+def login_member(
+    request: Request,
+    member: MemberLogin,
+    response: Response
+):
+    ip_address = request.client.host if request.client else None
+    failed_count = count_failed_login_attempts(
+        member.email,
+        ip_address
+    )
+    if failed_count >= 5:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many login attempts. Please try again later."
+        )
+
+
     """Verify a member's login credentials."""
 
     with get_db_connection() as connection:
@@ -205,10 +260,16 @@ def login_member(member: MemberLogin, response: Response):
             existing_member = cursor.fetchone()
 
     if existing_member is None:
+        record_login_attempt(
+            member.email,
+            request.client.host if request.client else None,
+            False
+    )
+
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password"
-        )
+    )
 
     try:
         password_hasher.verify(
@@ -217,10 +278,16 @@ def login_member(member: MemberLogin, response: Response):
         )
 
     except VerifyMismatchError:
+        record_login_attempt(
+            member.email,
+            request.client.host if request.client else None,
+            False
+    )
+
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password"
-        )
+    )
 
     except VerificationError:
         raise HTTPException(
