@@ -57,6 +57,38 @@ CREATE TABLE IF NOT EXISTS public.login_attempts (
 CREATE INDEX IF NOT EXISTS ix_login_attempts_email_time
 ON public.login_attempts (LOWER(email), attempted_at DESC);
 
+-- Events available for members to attend
+CREATE TABLE IF NOT EXISTS public.events (
+    event_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    event_name VARCHAR(150) NOT NULL,
+    description TEXT,
+    event_date TIMESTAMPTZ NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    max_participants INTEGER NOT NULL
+        CHECK (max_participants > 0),
+    created_at TIMESTAMPTZ NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Members booking places at events
+CREATE TABLE IF NOT EXISTS public.event_bookings (
+    booking_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+
+    event_id BIGINT NOT NULL
+        REFERENCES public.events(event_id)
+        ON DELETE CASCADE,
+
+    member_id BIGINT NOT NULL
+        REFERENCES public.members(member_id)
+        ON DELETE CASCADE,
+
+    booked_at TIMESTAMPTZ NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT unique_member_event
+        UNIQUE (event_id, member_id)
+);
+
 
 -- ==========================================================
 -- 4. APPLICATION USER PERMISSIONS
@@ -70,7 +102,9 @@ GRANT SELECT, INSERT, UPDATE, DELETE
 ON TABLE
     public.members,
     public.member_sessions,
-    public.login_attempts
+    public.login_attempts,
+    public.events,
+    public.event_bookings
 TO forewalk_app;
 
 GRANT USAGE, SELECT
