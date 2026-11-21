@@ -350,3 +350,115 @@ def logout_member(
     return {
         "message": "Logged out successfully"
     }
+    
+@app.get("/api/events")
+def get_events():
+    with get_db_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+    SELECT
+        e.event_id,
+        e.event_name,
+        e.description,
+        e.event_date,
+        e.location,
+        e.max_participants,
+        COUNT(b.booking_id) AS booked_places,
+        e.max_participants - COUNT(b.booking_id) AS available_places
+    FROM public.events e
+    LEFT JOIN public.event_bookings b
+        ON e.event_id = b.event_id
+    WHERE e.event_date >= CURRENT_TIMESTAMP
+    GROUP BY e.event_id
+    ORDER BY e.event_date ASC;
+""")
+
+            rows = cursor.fetchall()
+
+    return [
+    {
+        "event_id": row[0],
+        "event_name": row[1],
+        "description": row[2],
+        "event_date": row[3],
+        "location": row[4],
+        "max_participants": row[5],
+        "booked_places": row[6],
+        "available_places": row[7]
+    }
+    for row in rows
+]
+    
+@app.post("/api/events/{event_id}/book", status_code=201)
+def book_event(
+    event_id: int,
+    current_member: dict = Depends(get_current_member)
+):
+    member_id = current_member["member_id"]
+
+    with get_db_connection() as connection:
+        with connection.cursor() as cursor:
+
+            # Lock this event while checking and creating the booking.
+            cursor.execute("""
+                SELECT max_participants
+                FROM public.events
+                WHERE event_id = %s
+                  AND event_date >= CURRENT_TIMESTAMP
+                FOR UPDATE;
+            """, (event_id,))
+
+            event = cursor.fetchone()
+
+            if event is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Upcoming event not found"
+                )
+
+            max_participants = event[0]
+
+            # Check whether this member has already booked.
+            cursor.execute("""
+                SELECT booking_id
+                FROM public.event_bookings
+                WHERE event_id = %s
+                  AND member_id = %s;
+            """, (event_id, member_id))
+
+            if cursor.fetchone() is not None:
+                raise HTTPException(
+                    status_code=409,
+                    detail="You have already booked this event"
+                )
+
+            # Count existing bookings.
+            cursor.execute("""
+                SELECT COUNT(*)
+                FROM public.event_bookings
+                WHERE event_id = %s;
+            """, (event_id,))
+
+            booked_places = cursor.fetchone()[0]
+
+            if booked_places >= max_participants:
+                raise HTTPException(
+                    status_code=409,
+                    detail="This event is fully booked"
+                )
+
+            # Create the booking.
+            cursor.execute("""
+                INSERT INTO public.event_bookings
+                    (event_id, member_id)
+                VALUES (%s, %s)
+                RETURNING booking_id;
+            """, (event_id, member_id))
+
+            booking_id = cursor.fetchone()[0]
+
+    return {
+        "message": "Event booked successfully",
+        "booking_id": booking_id,
+        "event_id": event_id
+    }

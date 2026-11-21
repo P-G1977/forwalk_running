@@ -640,6 +640,68 @@ main {
     display: none;
 }
 
+/* Events */
+
+#upcoming-events {
+    padding: 40px 24px;
+}
+
+#events-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.event-card {
+    background-color: #DCE5D6;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #66816B;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.event-card h3 {
+    color: #243D32;
+    margin-bottom: 12px;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #243D32;
+    padding-bottom: 8px;
+}
+
+.event-description {
+    margin-bottom: 16px;
+    font-style: italic;
+}
+
+.book-event-btn {
+    background-color: #243D32;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 20px;
+    margin-top: auto;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: auto;
+    min-width: 140px;
+    text-align: center;
+}
+
+.book-event-btn:hover {
+    background-color: #66816B;
+}
+
+.book-event-btn:focus-visible {
+    outline: 3px solid #C88754;
+    outline-offset: 3px;
+}
+
 /* Tablets */
 @media screen and (min-width: 600px) {
     .gallery-grid {
