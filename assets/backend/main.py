@@ -350,7 +350,7 @@ def logout_member(
     return {
         "message": "Logged out successfully"
     }
-    
+
 @app.get("/api/events")
 def get_events():
     with get_db_connection() as connection:
@@ -388,7 +388,7 @@ def get_events():
     }
     for row in rows
 ]
-    
+
 @app.post("/api/events/{event_id}/book", status_code=201)
 def book_event(
     event_id: int,
