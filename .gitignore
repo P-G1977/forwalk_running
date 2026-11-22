@@ -24,3 +24,4 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/.venv_python38_backup/
+.venv_python38_backup/

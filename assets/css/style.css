@@ -702,6 +702,14 @@ main {
     outline-offset: 3px;
 }
 
+.cancel-booking-btn {
+    background-color: #A34A40;
+}
+
+.cancel-booking-btn:hover {
+    background-color: #82382F;
+}
+
 /* Tablets */
 @media screen and (min-width: 600px) {
     .gallery-grid {

@@ -34,7 +34,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:8001"],
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["Content-Type"]
 )
 
@@ -389,6 +389,27 @@ def get_events():
     for row in rows
 ]
 
+@app.get("/api/my-bookings")
+def get_my_bookings(
+    current_member: dict = Depends(get_current_member)
+):
+    member_id = current_member["member_id"]
+
+    with get_db_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT event_id
+                FROM public.event_bookings
+                WHERE member_id = %s
+                ORDER BY event_id;
+            """, (member_id,))
+
+            rows = cursor.fetchall()
+
+    return {
+        "booked_event_ids": [row[0] for row in rows]
+    }
+
 @app.post("/api/events/{event_id}/book", status_code=201)
 def book_event(
     event_id: int,
@@ -460,5 +481,34 @@ def book_event(
     return {
         "message": "Event booked successfully",
         "booking_id": booking_id,
+        "event_id": event_id
+    }
+
+@app.delete("/api/events/{event_id}/book")
+def cancel_event_booking(
+    event_id: int,
+    current_member: dict = Depends(get_current_member)
+):
+    member_id = current_member["member_id"]
+
+    with get_db_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                DELETE FROM public.event_bookings
+                WHERE event_id = %s
+                  AND member_id = %s
+                RETURNING booking_id;
+            """, (event_id, member_id))
+
+            deleted_booking = cursor.fetchone()
+
+            if deleted_booking is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail="You do not have a booking for this event"
+                )
+
+    return {
+        "message": "Booking cancelled successfully",
         "event_id": event_id
     }
