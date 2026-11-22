@@ -23,33 +23,32 @@ function showImage(index) {
   currentImageIndex = (index + galleryImages.length) % galleryImages.length;
   lightboxImage.src = galleryImages[currentImageIndex].src;
   lightboxImage.alt = galleryImages[currentImageIndex].alt;
-  lightboxCounter.textContent =
-    `${currentImageIndex + 1} / ${galleryImages.length}`;
+  lightboxCounter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
 }
 
 function openLightbox(index) {
-    previouslyFocusedElement = document.activeElement;
+  previouslyFocusedElement = document.activeElement;
 
-    showImage(index);
-    lightbox.hidden = false;
-    closeButton.focus();
+  showImage(index);
+  lightbox.hidden = false;
+  closeButton.focus();
 }
 
 function closeLightbox() {
-    lightbox.hidden = true;
+  lightbox.hidden = true;
 
-    if (previouslyFocusedElement) {
-        previouslyFocusedElement.focus();
-    }
+  if (previouslyFocusedElement) {
+    previouslyFocusedElement.focus();
+  }
 }
 
 /* Event Listeners */
 
 // Open the lightbox when a gallery button is clicked
 galleryTriggers.forEach((button, index) => {
-    button.addEventListener("click", () => {
-        openLightbox(index);
-    });
+  button.addEventListener("click", () => {
+    openLightbox(index);
+  });
 });
 
 // Navigation buttons
@@ -62,31 +61,26 @@ document.addEventListener("keydown", (event) => {
   if (lightbox.hidden) return;
 
   if (event.key === "Tab") {
-    const focusableElements = [
-        closeButton,
-        prevButton,
-        nextButton
-    ];
+    const focusableElements = [closeButton, prevButton, nextButton];
 
     const currentIndex = focusableElements.indexOf(document.activeElement);
 
     if (event.shiftKey) {
-        // Shift + Tab moves backwards
-        const previousIndex =
-            (currentIndex - 1 + focusableElements.length) %
-            focusableElements.length;
+      // Shift + Tab moves backwards
+      const previousIndex =
+        (currentIndex - 1 + focusableElements.length) %
+        focusableElements.length;
 
-        event.preventDefault();
-        focusableElements[previousIndex].focus();
+      event.preventDefault();
+      focusableElements[previousIndex].focus();
     } else {
-        // Tab moves forwards
-        const nextIndex =
-            (currentIndex + 1) % focusableElements.length;
+      // Tab moves forwards
+      const nextIndex = (currentIndex + 1) % focusableElements.length;
 
-        event.preventDefault();
-        focusableElements[nextIndex].focus();
+      event.preventDefault();
+      focusableElements[nextIndex].focus();
     }
-}
+  }
 
   switch (event.key) {
     case "ArrowRight":
