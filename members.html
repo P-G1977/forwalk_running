@@ -69,7 +69,7 @@
     </header>
 
     <!-- Main content -->
-    <main>
+    <main class="member-dashboard"></mainclass>
     <section id="members-dashboard" hidden>
         <h1>Member Dashboard</h1>
 
@@ -78,27 +78,36 @@
             <strong id="member-name"></strong>!
         </p>
 
-        <h2>Your Profile</h2>
+<div class="member-profile-card">
+  <h2>Your Profile</h2>
 
-        <p>
-            Email: <span id="member-email"></span>
-        </p>
+  <p>
+    Email: <span id="member-email"></span>
+  </p>
 
-        <h2>Your Events</h2>
-
-        <p>
-            Your upcoming Forewalk Games events
-            will appear here.
-        </p>
-
-        <button id="logout-button" type="button">
-            Log Out
-        </button>
+  <button id="logout-button" type="button">
+    Log Out
+  </button>
+</div>
     </section>
 
     <p id="dashboard-message" role="status" aria-live="polite">
         Checking your session...
     </p>
+
+    <!-- Member Bookings -->
+<section id="my-bookings">
+  <h2>My Bookings</h2>
+
+  <p class="bookings-intro">
+    View and manage your upcoming Forewalk Games events.
+  </p>
+
+  <div id="my-bookings-container">
+    <p>Loading your bookings...</p>
+  </div>
+</section>
+
 </main>
 
     <!-- Footer -->

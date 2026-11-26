@@ -4,14 +4,12 @@ import psycopg
 from psycopg.errors import UniqueViolation
 from dotenv import load_dotenv
 from argon2 import PasswordHasher
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Response, Cookie, Depends, Request
 from pydantic import BaseModel, EmailStr, Field
 from fastapi.middleware.cors import CORSMiddleware
 from argon2.exceptions import VerifyMismatchError, VerificationError
 from datetime import datetime, timedelta, timezone
-from fastapi import FastAPI, HTTPException, Response, Cookie, Depends
 from typing import Union
-from fastapi import Request
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -409,6 +407,44 @@ def get_my_bookings(
     return {
         "booked_event_ids": [row[0] for row in rows]
     }
+
+@app.get("/api/my-booking-details")
+def get_my_booking_details(
+    current_member: dict = Depends(get_current_member)
+):
+    member_id = current_member["member_id"]
+
+    with get_db_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT
+                    b.booking_id,
+                    e.event_id,
+                    e.event_name,
+                    e.event_date,
+                    e.location,
+                    e.description
+                FROM public.event_bookings b
+                INNER JOIN public.events e
+                    ON b.event_id = e.event_id
+                WHERE b.member_id = %s
+                    AND e.event_date >= CURRENT_TIMESTAMP
+                ORDER BY e.event_date ASC;
+            """, (member_id,))
+
+            rows = cursor.fetchall()
+
+    return [
+        {
+            "booking_id": row[0],
+            "event_id": row[1],
+            "event_name": row[2],
+            "event_date": row[3],
+            "location": row[4],
+            "description": row[5]
+        }
+        for row in rows
+    ]
 
 @app.post("/api/events/{event_id}/book", status_code=201)
 def book_event(

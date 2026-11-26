@@ -710,6 +710,108 @@ main {
     background-color: #82382F;
 }
 
+/* ========================================
+   Member Dashboard
+======================================== */
+
+.member-dashboard {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 70px 6% 40px;
+  box-sizing: border-box;
+}
+
+.member-dashboard h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 15px;
+}
+
+.member-dashboard section {
+  margin-bottom: 30px;
+}
+
+.member-dashboard h2 {
+  margin-bottom: 15px;
+}
+
+/* Member Profile Card */
+
+.member-profile-card {
+  background-color: #ffffff;
+  border: 1px solid #dce5d6;
+  border-left: 4px solid #66816b;
+  border-radius: 8px;
+  padding: 25px;
+  margin-top: 25px;
+  box-shadow: 0 4px 12px rgba(36, 61, 50, 0.08);
+}
+
+.member-profile-card p {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+#logout-button {
+  background-color: #243d32;
+  color: #f5f1e7;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 25px;
+  margin-top: 20px;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#logout-button:hover {
+  background-color: #66816b;
+}
+
+#logout-button:focus-visible {
+  outline: 3px solid #c88754;
+  outline-offset: 3px;
+}
+
+/* Member Bookings */
+
+#my-bookings {
+  margin-top: 40px;
+}
+
+.bookings-intro {
+  color: #66816b;
+  margin-bottom: 25px;
+}
+
+#my-bookings-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 20px;
+}
+
+.my-booking-card {
+  background-color: #ffffff;
+  border: 1px solid #dce5d6;
+  border-left: 4px solid #66816b;
+  border-radius: 8px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(36, 61, 50, 0.08);
+}
+
+.my-booking-card h3 {
+  color: #243d32;
+  font-size: 1.6rem;
+}
+
+.my-booking-card p {
+  line-height: 1.6;
+}
+
 /* Tablets */
 @media screen and (min-width: 600px) {
     .gallery-grid {
