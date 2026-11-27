@@ -1,3 +1,5 @@
+import { cancelBookingRequest } from "./booking-api.js";
+
 async function loadEvents() {
   const response = await fetch("http://127.0.0.1:8000/api/events");
 
@@ -83,7 +85,9 @@ async function getMyBookings() {
   return data.booked_event_ids;
 }
 
-loadEvents();
+loadEvents().catch((error) => {
+  console.error("Failed to load events:", error);
+});
 
 async function bookEvent(eventId) {
   try {
@@ -124,25 +128,14 @@ async function cancelBooking(eventId) {
   }
 
   try {
-    const response = await fetch(
-      `http://127.0.0.1:8000/api/events/${eventId}/book`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      },
-    );
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      alert(result.detail || "Unable to cancel booking.");
-      return;
-    }
+    const result = await cancelBookingRequest(eventId);
 
     alert(result.message);
+
     await loadEvents();
   } catch (error) {
     console.error("Cancellation error:", error);
-    alert("Unable to connect to the booking server.");
+
+    alert(error.message || "Unable to cancel booking.");
   }
 }
