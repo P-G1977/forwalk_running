@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./config.js";
 const signupForm = document.getElementById("signup-form");
 const passwordError = document.getElementById("password-error");
 const passwordInput = document.getElementById("password");
@@ -40,7 +41,7 @@ signupForm.addEventListener("submit", async (event) => {
   console.log(`Name: ${registrationData.full_name}`);
   console.log(`Email: ${registrationData.email}`);
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/register", {
+    const response = await fetch(`${API_BASE_URL}/api/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

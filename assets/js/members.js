@@ -1,24 +1,18 @@
+import { API_BASE_URL } from "./config.js";
 import { cancelBookingRequest } from "./booking-api.js";
+import { getCurrentMember } from "./auth-api.js";
+
 const dashboard = document.getElementById("members-dashboard");
 const dashboardMessage = document.getElementById("dashboard-message");
 
 async function loadMemberDashboard() {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/me", {
-      method: "GET",
-      credentials: "include",
-    });
+    const member = await getCurrentMember();
 
-    if (response.status === 401) {
+    if (!member) {
       window.location.replace("login.html");
       return;
     }
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
-
-    const member = await response.json();
 
     document.getElementById("member-name").textContent = member.full_name;
 
@@ -42,7 +36,7 @@ logoutButton.addEventListener("click", async () => {
   logoutButton.disabled = true;
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/logout", {
+    const response = await fetch(`${API_BASE_URL}/api/logout`, {
       method: "POST",
       credentials: "include",
     });
@@ -65,13 +59,10 @@ async function loadMyBookings() {
   const container = document.getElementById("my-bookings-container");
 
   try {
-    const response = await fetch(
-      "http://127.0.0.1:8000/api/my-booking-details",
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
+    const response = await fetch(`${API_BASE_URL}/api/my-booking-details`, {
+      method: "GET",
+      credentials: "include",
+    });
 
     if (!response.ok) {
       throw new Error("Unable to retrieve bookings");

@@ -1,7 +1,8 @@
+import { API_BASE_URL } from "./config.js";
 import { cancelBookingRequest } from "./booking-api.js";
 
 async function loadEvents() {
-  const response = await fetch("http://127.0.0.1:8000/api/events");
+  const response = await fetch(`${API_BASE_URL}/api/events`);
 
   if (!response.ok) {
     throw new Error("Failed to load events");
@@ -68,7 +69,7 @@ async function loadEvents() {
 }
 
 async function getMyBookings() {
-  const response = await fetch("http://127.0.0.1:8000/api/my-bookings", {
+  const response = await fetch(`${API_BASE_URL}/api/my-bookings`, {
     credentials: "include",
   });
 
@@ -91,13 +92,10 @@ loadEvents().catch((error) => {
 
 async function bookEvent(eventId) {
   try {
-    const response = await fetch(
-      `http://127.0.0.1:8000/api/events/${eventId}/book`,
-      {
-        method: "POST",
-        credentials: "include",
-      },
-    );
+    const response = await fetch(`${API_BASE_URL}/api/events/${eventId}/book`, {
+      method: "POST",
+      credentials: "include",
+    });
 
     const result = await response.json();
 

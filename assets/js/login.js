@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "./config.js";
+import { getCurrentMember } from "./auth-api.js";
 const loginForm = document.getElementById("login-form");
 const loginMessage = document.getElementById("login-message");
 
@@ -12,7 +14,7 @@ loginForm.addEventListener("submit", async (event) => {
   };
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/login", {
+    const response = await fetch(`${API_BASE_URL}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,21 +43,12 @@ loginForm.addEventListener("submit", async (event) => {
 
 async function checkLoginStatus() {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/me", {
-      method: "GET",
-      credentials: "include",
-    });
+    const member = await getCurrentMember();
 
-    if (response.status === 401) {
+    if (!member) {
       console.log("No active login session.");
       return;
     }
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
-
-    const member = await response.json();
 
     console.log("Logged in member ID:", member.member_id);
     console.log("Logged in member name:", member.full_name);
