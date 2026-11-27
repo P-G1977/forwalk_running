@@ -21,4 +21,23 @@ async function updateNavigation() {
   }
 }
 
+function highlightActivePage() {
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+  const navLinks = document.querySelectorAll("#menu a");
+
+  navLinks.forEach((link) => {
+    const isActive = link.getAttribute("href") === currentPage;
+
+    link.classList.toggle("active", isActive);
+
+    if (isActive) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+highlightActivePage();
 updateNavigation();
