@@ -1,3 +1,4 @@
+import { cancelBookingRequest } from "./booking-api.js";
 const dashboard = document.getElementById("members-dashboard");
 const dashboardMessage = document.getElementById("dashboard-message");
 
@@ -25,6 +26,8 @@ async function loadMemberDashboard() {
 
     dashboard.hidden = false;
     dashboardMessage.hidden = true;
+
+    await loadMyBookings();
   } catch (error) {
     dashboardMessage.textContent =
       "Unable to load your dashboard. Please try again.";
@@ -32,8 +35,6 @@ async function loadMemberDashboard() {
     console.error("Dashboard request failed:", error);
   }
 }
-
-loadMemberDashboard();
 
 const logoutButton = document.getElementById("logout-button");
 
@@ -105,8 +106,16 @@ async function loadMyBookings() {
 
       const location = document.createElement("p");
       location.textContent = `Location: ${booking.location}`;
+      const cancelButton = document.createElement("button");
+      cancelButton.type = "button";
+      cancelButton.textContent = "Cancel Booking";
+      cancelButton.classList.add("book-event-btn", "cancel-booking-btn");
 
-      card.append(title, description, date, location);
+      cancelButton.addEventListener("click", () => {
+        cancelMemberBooking(booking.event_id);
+      });
+
+      card.append(title, description, date, location, cancelButton);
 
       container.appendChild(card);
     });
@@ -116,4 +125,21 @@ async function loadMyBookings() {
   }
 }
 
-loadMyBookings();
+async function cancelMemberBooking(eventId) {
+  const confirmed = confirm("Are you sure you want to cancel this booking?");
+
+  if (!confirmed) return;
+
+  try {
+    const result = await cancelBookingRequest(eventId);
+
+    alert(result.message);
+
+    await loadMyBookings();
+  } catch (error) {
+    console.error("Cancellation error:", error);
+    alert(error.message || "Unable to cancel booking.");
+  }
+}
+
+loadMemberDashboard();
